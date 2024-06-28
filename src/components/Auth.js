@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../App.css";
 import { auth } from "../config/config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export const Auth = () => {
    const [email, setEmail] = useState("");
@@ -9,8 +9,23 @@ export const Auth = () => {
 
    const handleLogin = async (e) => {
       e.preventDefault();
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("userCredential: ", userCredential, userCredential.user);
+      try {
+         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+         console.log("userCredential: ", userCredential, userCredential.user);
+      } catch (error) {
+         console.log("Error while email login: ", error);
+      }
+   }
+
+   const handleGoogleLogin = async (e) => {
+      e.preventDefault();
+      const provider = new GoogleAuthProvider();
+      try {
+         const result = await signInWithPopup(auth, provider);
+         console.log("result: ", result);
+      } catch (error) {
+         console.log("Error while google login: ", error);
+      }
    }
 
    return (
@@ -30,7 +45,8 @@ export const Auth = () => {
                className="input"
                type="password"
             /><br />
-            <button id="submit" type="submit" onClick={handleLogin}>Login</button>
+            <button id="submit" type="submit" onClick={handleLogin}>Login</button><br />
+            <button id="submit" type="submit" onClick={handleGoogleLogin}>Login With Google</button>
          </form>
       </div>
    );
