@@ -46,8 +46,10 @@ export const Auth = () => {
                type="password"
             /><br />
             <button id="submit" type="submit" onClick={handleLogin}>Login</button><br />
-            <button id="submit" type="submit" onClick={handleGoogleLogin}>Login With Google</button>
+            <button id="google-submit" type="submit" onClick={handleGoogleLogin}>Login With Google</button>
          </form>
       </div>
    );
 }
+
+export default Auth;
